@@ -13,7 +13,7 @@ st.write("Análisis con filtros por continente, país, fechas, rebrote, tasas y 
 
 @st.cache_data
 def cargar_datos():
-    return pd.read_csv("../data/data_final.zip",parse_dates=["fecha_archivo"],low_memory=False)
+    return pd.read_csv("data/data_final.zip",parse_dates=["fecha_archivo"],low_memory=False)
 
 
 df = cargar_datos()
