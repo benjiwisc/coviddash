@@ -13,7 +13,8 @@ st.write("Análisis con filtros por continente, país, fechas, rebrote, tasas y 
 
 @st.cache_data
 def cargar_datos():
-    return pd.read_csv("data/data_final.zip", parse_dates=["fecha_archivo"], low_memory=False)
+    return pd.read_csv("../data/data_final.zip",parse_dates=["fecha_archivo"],low_memory=False)
+
 
 df = cargar_datos()
 
@@ -159,7 +160,6 @@ if inicio_val > 0:
 else:
     crecimiento_bruto = 0
     factor = 1
-
 if factor <= 2:
     tasa_texto = f"{(factor-1)*100:.2f}%"
 else:
@@ -173,10 +173,6 @@ st.dataframe(df_pais, use_container_width=True)
 st.markdown("---")
 st.subheader("📌 Conclusiones")
 
-# ==========================
-#   GENERACIÓN DE INSIGHTS
-# ==========================
-
 conf_tot = df_pais['confirmados'].sum()
 muertes_tot = df_pais['fallecidos'].sum()
 recup_tot = df_pais['recuperados'].sum()
@@ -187,7 +183,6 @@ prom_diario = df_time["confirmados_diarios"].mean()
 pico = df_time["confirmados_diarios"].max()
 fecha_pico = df_time.loc[df_time["confirmados_diarios"].idxmax(), "fecha_archivo"].date()
 
-# Mensajes automáticos
 conclusiones = []
 
 if crecimiento_bruto > 0:
@@ -199,7 +194,7 @@ if crecimiento_bruto > 0:
 if prom_diario > 0:
     conclusiones.append(
         f"El promedio diario de contagios fue de **{prom_diario:.0f} casos**, "
-        f"mientras que el **pico ocurrió el {fecha_pico}** con **{pico:,} nuevos contagios**."
+        f"mientras que el **mas alto ocurrió el {fecha_pico}** con **{pico:,} nuevos contagios**."
     )
 
 if recup_tot > muertes_tot:
@@ -226,7 +221,7 @@ else:
 if activos_tot > (conf_tot * 0.20):
     conclusiones.append(
         f"El número de casos activos (**{activos_tot:,}**) representa un porcentaje "
-        f"elevado del total acumulado, indicando circulación del virus."
+        f"elevado del total acumulado, indicando presencia del virus."
     )
 
 for c in conclusiones:
